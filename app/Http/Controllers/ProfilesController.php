@@ -28,6 +28,6 @@ class ProfilesController extends Controller
 
         $user->profile->update($data);
 
-        return redirect('profile/' . $user->id);
+        return redirect("profile/{$user->id}");
     }
 }
