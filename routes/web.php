@@ -13,6 +13,7 @@
 
 Auth::routes();
 
+// Actions
 Route::post('/follow/{user}', 'FollowsController@store');
 
 // Post Routes
