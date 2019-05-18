@@ -12,7 +12,7 @@
 */
 
 Auth::routes();
-
+use App\Post;
 // Actions
 Route::post('/follow/{user}', 'FollowsController@store');
 
@@ -21,6 +21,7 @@ Route::get('/', 'PostsController@index');
 Route::get('/p/create', 'PostsController@create');
 Route::post('/p', 'PostsController@store');
 Route::get('/p/{post}', 'PostsController@show');
+Route::post('/p/{post}/comment/add', 'PostsController@addComment');
 
 // Profile Routes
 Route::get('/profile/{user}', 'ProfilesController@index')->name('profile.show');

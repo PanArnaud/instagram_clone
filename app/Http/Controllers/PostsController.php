@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Comment;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -22,7 +23,7 @@ class PostsController extends Controller
     {
         $users = auth()->user()->following()->pluck('profiles.user_id');
     
-        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->paginate(5);
+        $posts = Post::whereIn('user_id', $users)->with('user')->withCount('comments')->latest()->paginate(5);
 
         return view('posts.index', compact('posts'));
     }
@@ -55,8 +56,22 @@ class PostsController extends Controller
 
     public function show(Post $post)
     {
+        $comments = Comment::where('post_id', $post->id)->with('user')->get();
         $follows = (auth()->user()) ? auth()->user()->following->contains($post->user->id) : false;
+        return view('posts.show', compact('post', 'follows', 'comments'));
+    }
 
-        return view('posts.show', compact('post', 'follows'));
+    public function addComment(Post $post)
+    {
+        $data = request()->validate([
+            'content' =>'required',
+        ]);
+
+        auth()->user()->comments()->create([
+            'content' => $data['content'],
+            'post_id' => $post->id,
+        ]);
+
+        return redirect()->back();
     }
 }
