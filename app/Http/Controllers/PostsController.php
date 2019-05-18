@@ -74,4 +74,13 @@ class PostsController extends Controller
 
         return redirect()->back();
     }
+
+    public function deleteComment(Post $post, Comment $comment)
+    {
+        if (auth()->user()->id == $comment->user_id) {
+            $comment->delete();
+        }
+
+        return redirect()->back();
+    }
 }

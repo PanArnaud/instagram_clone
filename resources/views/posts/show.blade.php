@@ -34,7 +34,7 @@
         {{ $post->caption }}
       </p>
       @foreach($comments as $comment)
-        <p class="mb-0">
+        <div class="justify-content-center">
           <span class="font-weight-bold">
             <a href="/profile/{{ $comment->user_id }}">
               <span class="text-dark">
@@ -43,7 +43,15 @@
             </a>
           </span>
           {{ $comment->content }}
-        </p>
+          @if (Auth::user()->id == $comment->user_id)
+            <form class="float-right" action="/p/{{ $post->id }}/comment/{{ $comment->id }}/delete" enctype="multipart/form-data" method="POST">
+              @csrf
+              <button type="submit" class="close" aria-label="Close">
+                <span class="text-black-50" aria-hidden="true">&times;</span>
+              </button>
+            </form>
+          @endif
+        </div>
       @endforeach
 
       <hr>

@@ -22,6 +22,7 @@ Route::get('/p/create', 'PostsController@create');
 Route::post('/p', 'PostsController@store');
 Route::get('/p/{post}', 'PostsController@show');
 Route::post('/p/{post}/comment/add', 'PostsController@addComment');
+Route::post('/p/{post}/comment/{comment}/delete', 'PostsController@deleteComment');
 
 // Profile Routes
 Route::get('/profile/{user}', 'ProfilesController@index')->name('profile.show');
